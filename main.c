@@ -28,3 +28,29 @@
 // http://man7.org/linux/man-pages/man1/pwd.1.html
 //
 //
+
+
+void main(){
+
+  int bufsize = 1024;
+  int pos = 0;
+
+  char *buffer = malloc(sizeof(char)* bufsize);
+  if(buffer == NULL){
+    printf("Failed to allocate memory!");
+    exit(EXIT_FAILURE);
+  }
+  int c;
+  // TODO: Add check for error on allocation
+
+  while(1){
+    // Put current char into buffer
+    c = getchar();
+    if(c == EOF){break;};
+    buffer[pos++] = c;
+    // TODO: If we have run out of space, reallocate more (use memcpy? )
+    if(pos >= bufsize){
+      
+    }
+  }
+}
