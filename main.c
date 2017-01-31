@@ -34,19 +34,9 @@
 
 int main(void)
 {
-    int bufsize = 1024;
-    int pos = 0;
-    int c;
-
-    char *buffer = malloc(sizeof(char)* bufsize);
-    if (buffer == NULL) {
-        printf("Failed to allocate memory!");
-        exit(EXIT_FAILURE);
-    }
-    // TODO: Add check for error on allocation
-
     char *line;
     char *cwd;
+    char **tokens;
     while(1) {
         /* Display current working directory on prompt */
         cwd = utils_get_cwd();
@@ -57,22 +47,18 @@ int main(void)
         printf("line read: %s\n", line);
 
         /* Todo: tokenize line */
+        tokens = utils_tokenize(line);
+
+        for (int i = 0; tokens[i] != NULL; ++i) {
+            printf("%d: %s\n", i, tokens[i]);
+        }
+
         /* Todo: fork child process for jobs */
 
         /* Remember to free allocated stuff */
         free(cwd);
         free(line);
-
-        /*
-        // Put current char into buffer
-        c = getchar();
-        if(c == EOF){break;};
-        buffer[pos++] = c;
-        // TODO: If we have run out of space, reallocate more (use memcpy? )
-        if(pos >= bufsize){
-          
-        }
-        */
+        free(tokens);
     }
 
     exit(EXIT_SUCCESS);
