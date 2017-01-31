@@ -42,10 +42,7 @@ char *get_line(FILE *input)
      * storing the line, which should be freed by
      * the user program.
      */
-    if ((read = getline(&lineptr, &len, input)) == -1) {
-        fprintf(stderr, "getline");
-        exit(EXIT_FAILURE);
-    }
+    getline(&lineptr, &len, input); /* Just read one line */ 
     return lineptr;
 }
 
