@@ -1,7 +1,3 @@
-
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
 // This is a shell that (hopefully) fits the requirements described by Stalling
 // in his book 'Operating Systems - Internals and Design Principles' 8th ed.
 //
@@ -29,28 +25,66 @@
 //
 //
 
+#define _GNU_SOURCE
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-void main(){
+char *get_line(FILE *input); /* todo: put this in a separate file probably (utils) */
 
-  int bufsize = 1024;
-  int pos = 0;
-
-  char *buffer = malloc(sizeof(char)* bufsize);
-  if(buffer == NULL){
-    printf("Failed to allocate memory!");
-    exit(EXIT_FAILURE);
-  }
-  int c;
-  // TODO: Add check for error on allocation
-
-  while(1){
-    // Put current char into buffer
-    c = getchar();
-    if(c == EOF){break;};
-    buffer[pos++] = c;
-    // TODO: If we have run out of space, reallocate more (use memcpy? )
-    if(pos >= bufsize){
-      
+char *get_line(FILE *input)
+{
+    char *lineptr = NULL;
+    size_t len = 0;
+    ssize_t read;
+    /* From getline man page: if *lineptr is NULL then
+     * getline will allocate a buffer for
+     * storing the line, which should be freed by
+     * the user program.
+     */
+    if ((read = getline(&lineptr, &len, input)) == -1) {
+        fprintf(stderr, "getline");
+        exit(EXIT_FAILURE);
     }
-  }
+    return lineptr;
+}
+
+int main(void)
+{
+    int bufsize = 1024;
+    int pos = 0;
+    int c;
+
+    char *buffer = malloc(sizeof(char)* bufsize);
+    if (buffer == NULL) {
+        printf("Failed to allocate memory!");
+        exit(EXIT_FAILURE);
+    }
+    // TODO: Add check for error on allocation
+
+    char *line;
+    while(1) {
+        /* Buffer input from stdin */
+        line = get_line(stdin);
+        printf("line read: %s\n", line);
+
+        /* Todo: tokenize line */
+        /* Todo: fork child process for jobs */
+
+        /* Have to explicitly free memory allocated by getline() */
+        free(line);
+
+        /*
+        // Put current char into buffer
+        c = getchar();
+        if(c == EOF){break;};
+        buffer[pos++] = c;
+        // TODO: If we have run out of space, reallocate more (use memcpy? )
+        if(pos >= bufsize){
+          
+        }
+        */
+    }
+
+    exit(EXIT_SUCCESS);
 }
