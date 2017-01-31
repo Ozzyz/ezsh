@@ -25,26 +25,12 @@
 //
 //
 
-#define _GNU_SOURCE
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-char *get_line(FILE *input); /* todo: put this in a separate file probably (utils) */
+#include "utils.h"
 
-char *get_line(FILE *input)
-{
-    char *lineptr = NULL;
-    size_t len = 0;
-    ssize_t read;
-    /* From getline man page: if *lineptr is NULL then
-     * getline will allocate a buffer for
-     * storing the line, which should be freed by
-     * the user program.
-     */
-    getline(&lineptr, &len, input); /* Just read one line */ 
-    return lineptr;
-}
 
 int main(void)
 {
@@ -60,15 +46,21 @@ int main(void)
     // TODO: Add check for error on allocation
 
     char *line;
+    char *cwd;
     while(1) {
+        /* Display current working directory on prompt */
+        cwd = utils_get_cwd();
+        printf("%s> ", cwd);
+
         /* Buffer input from stdin */
-        line = get_line(stdin);
+        line = utils_get_line(stdin);
         printf("line read: %s\n", line);
 
         /* Todo: tokenize line */
         /* Todo: fork child process for jobs */
 
-        /* Have to explicitly free memory allocated by getline() */
+        /* Remember to free allocated stuff */
+        free(cwd);
         free(line);
 
         /*
