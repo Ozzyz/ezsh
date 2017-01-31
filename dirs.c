@@ -9,18 +9,18 @@
 
 #include "dirs.h"
 
+/* @Incomplete, need to check for empty path */
 void dirs_ls(char *path)
 {
 	DIR *dir_p;
 	struct dirent *entry_p;
 
 	char *cur_path = malloc(PATH_MAX * sizeof(char));
+	/* We have to null terminate cur_path for strcat to have defined behavior. */
 	cur_path[0] = '.';
 	cur_path[1] = '/';
 	cur_path[2] = '\0';
-	/* We have to null terminate the dest string 
-	 * for strcat to have defined behavior.
-	 */
+
 	strcat(cur_path, path);
 	dir_p = opendir(cur_path);
 	if (dir_p != NULL) {
@@ -40,6 +40,7 @@ void dirs_ls(char *path)
 	free(cur_path);
 }
 
+/* @Incomplete, need to check for empty path */
 void dirs_chdir(char *path)
 {
 	int err;
