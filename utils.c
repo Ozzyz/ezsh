@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <errno.h>
+#include <stdint.h>
 
 #include "utils.h"
 #include "dirs.h"
@@ -33,7 +34,7 @@ char **utils_tokenize(char *line)
 {
 	char *saveptr;
 	char *token;
-	char bufsize = 32;
+	uint32_t bufsize = 32;
 	char **buf = malloc(bufsize * sizeof(char *));
 	if (!buf) {
 		perror("malloc");
