@@ -2,10 +2,13 @@
 
 Commands:
 - Create rm (http://man7.org/linux/man-pages/man2/mkdir.2.html)
-
+- Create help (list all commands)
 
 General
 - Make a good parser
 - Allow support for flags
+- Subprocesses
+- Piping  echo < test.txt
 
 Bugs
+- commands does not handle empty args

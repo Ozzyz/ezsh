@@ -19,13 +19,13 @@ char *utils_get_line(FILE * input)
 {
 	char *lineptr = NULL;
 	size_t len = 0;
-	/* From getline man page: if *lineptr is NULL then
+	/* From getline man page: if *lineptr is NULL and len is 0
 	 * getline will allocate a buffer for
 	 * storing the line, which should be freed by
 	 * the user program.
 	 */
 	/* Don't know how we should error check this */
-	getline(&lineptr, &len, input);	/* Just read one line */
+	getline(&lineptr, &len, input);
 	return lineptr;
 }
 
@@ -81,6 +81,8 @@ int utils_execute(char **tokens)
 		printf("%s\n", cwd);
 	} else if (strcmp(cmd, "exit") == 0) {
 		utils_exit();
+	} else {
+		printf("Unrecognized command. To see available commands, write 'help'\n");
 	}
 	return 0;
 }
