@@ -4,14 +4,17 @@
 #include <unistd.h>
 #include <string.h>
 #include <errno.h>
+#include <stdint.h>
 
 #include "utils.h"
+#include "dirs.h"
 
 void utils_echo(char *line)
 {
 	fprintf(stdout, "%s\n", line);
 }
 
+/* @Incomplete */
 char *utils_get_line(FILE * input)
 {
 	char *lineptr = NULL;
@@ -31,7 +34,7 @@ char **utils_tokenize(char *line)
 {
 	char *saveptr;
 	char *token;
-	char bufsize = 32;
+	uint32_t bufsize = 32;
 	char **buf = malloc(bufsize * sizeof(char *));
 	if (!buf) {
 		perror("malloc");
@@ -57,4 +60,32 @@ char **utils_tokenize(char *line)
 	}
 	buf[i] = NULL;
 	return buf;
+}
+
+/* Maps command token to builtin shell commands 
+ * @Incomplete, should probably map each command to function pointers (and args?)
+*/
+int utils_execute(char **tokens)
+{
+	char *cmd = tokens[0];
+	char *cwd = dirs_get_cwd();
+	if (strcmp(cmd, "ls") == 0) {
+		if (cmd) {
+			dirs_ls(tokens[1]);
+		}
+	} else if (strcmp(cmd, "cd") == 0) {
+		dirs_chdir(tokens[1]);
+	} else if (strcmp(cmd, "echo") == 0) {
+		utils_echo(tokens[1]);
+	} else if (strcmp(cmd, "pwd") == 0) {
+		printf("%s\n", cwd);
+	} else if (strcmp(cmd, "exit") == 0) {
+		utils_exit();
+	}
+	return 0;
+}
+
+void utils_exit()
+{
+	exit(EXIT_SUCCESS);
 }
