@@ -1,0 +1,11 @@
+// TODO:
+
+Commands:
+- Create rm (http://man7.org/linux/man-pages/man2/mkdir.2.html)
+
+
+General
+- Make a good parser
+- Allow support for flags
+
+Bugs
