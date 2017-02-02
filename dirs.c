@@ -25,15 +25,15 @@ void dirs_ls(char *path)
 		path = ".";
 	strcat(cur_path, path);
 	dir_p = opendir(cur_path);
+	/* Iterate through all children of the directory */
 	if (dir_p != NULL) {
 		while ((entry_p = readdir(dir_p))) {
-			if (entry_p->d_type == 4) {
-				printf("%hu %u %s/\n", entry_p->d_reclen, entry_p->d_type,
-					   entry_p->d_name);
-			} else {
-				printf("%hu %u %s\n", entry_p->d_reclen, entry_p->d_type,
-					   entry_p->d_name);
-			}
+			printf("%hu %u %s", entry_p->d_reclen, entry_p->d_type,
+				   entry_p->d_name);
+			/* Show folders with a forward slash */
+			if (entry_p->d_type == 4)
+				printf("/");
+			printf("\n");
 		}
 		closedir(dir_p);
 	} else {
