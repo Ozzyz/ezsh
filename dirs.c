@@ -9,7 +9,6 @@
 
 #include "dirs.h"
 
-/* @Incomplete, need to check for empty path */
 void dirs_ls(char *path)
 {
 	DIR *dir_p;
@@ -21,6 +20,9 @@ void dirs_ls(char *path)
 	cur_path[1] = '/';
 	cur_path[2] = '\0';
 
+	/* Empty path */
+	if (!path)
+		path = ".";
 	strcat(cur_path, path);
 	dir_p = opendir(cur_path);
 	if (dir_p != NULL) {
@@ -40,10 +42,12 @@ void dirs_ls(char *path)
 	free(cur_path);
 }
 
-/* @Incomplete, need to check for empty path */
 void dirs_chdir(char *path)
 {
 	int err;
+	/* @Incomplete: Eventually make empty path change to home path? */
+	if (!path)
+		path = ".";
 	if ((err = chdir(path)) == -1) {
 		perror("chdir");
 		exit(EXIT_FAILURE);
