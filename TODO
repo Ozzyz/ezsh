@@ -1,8 +1,9 @@
 // TODO:
 
 Commands:
-- Create rm (http://man7.org/linux/man-pages/man2/mkdir.2.html)
+- Create mkdir (http://man7.org/linux/man-pages/man2/mkdir.2.html)
 - Create help (list all commands)
+- Create rm 
 
 General
 - Make a good parser
