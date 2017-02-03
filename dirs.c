@@ -11,6 +11,42 @@
 
 #include "dirs.h"
 
+void dirs_rmdir(char *path)
+{
+	/* TODO */
+	printf("deleting directory... :) \n");
+}
+
+void dirs_rm(char *path)
+{
+	if (!path) {
+		fprintf(stderr, "rm needs a filepath!\n");
+		return;
+	}
+
+	struct stat sb;
+	if (stat(path, &sb) == -1) {
+		perror("stat");
+		return;
+	}
+
+	/* Bitwise and to check only the bits that concern the filetype */
+	switch (sb.st_mode & S_IFMT) {
+	case S_IFDIR:
+		dirs_rmdir(path);
+		break;
+	case S_IFREG:
+		if (unlink(path) == -1) {
+			fprintf(stderr, "could not remove %s\n", path);
+		}
+		break;
+	default:
+		fprintf(stderr, "not a directory or file\n");
+		break;
+	}
+
+}
+
 void dirs_mkdir(char *path)
 {
 	if (!path) {

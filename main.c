@@ -26,9 +26,7 @@ int main(void)
 
 		/* Buffer input from stdin */
 		line = utils_get_line(stdin);
-		//printf("line read: %s\n", line);
 
-		/* Todo: tokenize line */
 		tokens = utils_tokenize(line);
 /*
 		for (int i = 0; tokens[i] != NULL; ++i) {
