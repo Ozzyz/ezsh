@@ -14,16 +14,49 @@
 #include "utils.h"
 #include "dirs.h"
 
+#include <termios.h>
+
+int getch(void);
+
+int getch(void)
+{
+	struct termios oldattr, newattr;
+	int ch;
+	tcgetattr(STDIN_FILENO, &oldattr);
+	newattr = oldattr;
+	newattr.c_lflag &= ~(ICANON | ECHO);
+	tcsetattr(STDIN_FILENO, TCSANOW, &newattr);
+	ch = getchar();
+	tcsetattr(STDIN_FILENO, TCSANOW, &oldattr);
+	return ch;
+}
+
 int main(void)
 {
 	char *line;
 	char *cwd;
 	char **tokens;
+	char key;
+
+	int expected[] = { 27, 91, 65 };	/* Up arrow key code sequence */
+	int state = 0;
+
 	while (1) {
 		/* Display current working directory on prompt */
 		cwd = dirs_get_cwd();
 		printf("%s> ", cwd);
 
+		while (key != EOF) {
+			key = getch();
+			printf("%d ", key);
+			if (key == expected[state]) {
+				state++;
+				if (state == 3) {
+					/* Found up arrow key */
+					printf("Found up arrow key!\n");
+				}
+			}
+		}
 		/* Buffer input from stdin */
 		line = utils_get_line(stdin);
 
