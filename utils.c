@@ -81,8 +81,11 @@ int utils_execute(char **tokens)
 		printf("%s\n", cwd);
 	} else if (strcmp(cmd, "exit") == 0) {
 		utils_exit();
+	} else if (strcmp(cmd, "mkdir") == 0) {
+		dirs_mkdir(tokens[1]);
 	} else {
-		printf("Unrecognized command. To see available commands, write 'help'\n");
+		printf
+			("Unrecognized command. To see available commands, write 'help'\n");
 	}
 	return 0;
 }

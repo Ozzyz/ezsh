@@ -1,3 +1,4 @@
+#define _DEFAULT_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
@@ -6,8 +7,20 @@
 #include <sys/types.h>
 #include <string.h>
 #include <linux/limits.h>
+#include <sys/stat.h>
 
 #include "dirs.h"
+
+void dirs_mkdir(char *path)
+{
+	if (!path) {
+		fprintf(stderr, "Cannot have empty directory name.\n");
+		return;
+	}
+	if (mkdir(path, S_IFDIR) == -1) {
+		perror("mkdir");
+	}
+}
 
 void dirs_ls(char *path)
 {
