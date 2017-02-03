@@ -1,15 +1,17 @@
 // TODO:
 
 Commands:
-- Create mkdir (http://man7.org/linux/man-pages/man2/mkdir.2.html)
+- Create rmdir 
 - Create help (list all commands)
 - Create rm 
+- Create cat 
 
 General
 - Make a good parser
 - Allow support for flags
 - Subprocesses
-- Piping  echo < test.txt
-
+- IO/redirectio IE.  echo < test.txt
+- Piping cat test.txt | myprogram.py
+- Concatenation of commands with &&
 Bugs
 - commands does not handle empty args
